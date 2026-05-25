@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react'
 
 import { useAdaptive, countTarget } from '@/lib/adaptive'
 import { DifficultyBadge } from '@/components/ui/DifficultyBadge'
-import ChapterLesson from '@/components/ui/ChapterLesson'
-import { getLessonExamples } from '@/lib/lessons'
+
+
 import { useChapterPhase } from '@/lib/useChapterPhase'
 import SpeakingLock from '@/components/ui/SpeakingLock'
-import GameTopbar from '../ui/GameTopbar'
+import GameTopbar from '@/components/ui/GameTopbar'
 import { afterSpeech, speakAfterCurrent, useMiloSpeaker } from '@/lib/useMiloSpeaker'
+import CountingLesson from '../lessons/CountingLesson'
 
 interface Props { onComplete:(c:number,w:number)=>void; childName:string }
 
@@ -88,6 +89,10 @@ export default function CountingChapter({onComplete,childName}:Props){
   const bubbleText=tapped.length===0?`Tap each ${emojiSet.label} to count!`
     :tapped.length<target?`${tapped.length}…`
     :`How many ${emojiSet.label}?`
+
+  if(phase==='lesson') return(
+    <CountingLesson childName={childName} onLessonComplete={startPractice}/>
+  )
 
   return(
     <div style={S.page}>
